@@ -126,8 +126,27 @@ const noexcept
   return &x;
 }
 
+/*
+Block structures(64 bit）
+                                       ------------------------
+0x7fe1aa008200 BLOCK HEADER            | *pointer             |-> previous block
+0x7fe1aa008208   BLOCK BODY  FIRST SLOT|                      |
+.                                      .                      .
+.                                      .                      .
+                            SECOND SLOT|value                 |
+                                       .                      .
+                                       .                      .
+                freeslot ->  THIRD SLOT|*pointer              |-> previous free slot
+                                       .                      .
+                                       .                      .
+                             .
+                             .
+0x7fe1aa0091f1                LAST SLOT|value                 |
+                                       .                      .
+                                       .                      .
+                                       ------------------------
 
-
+ */
 template <typename T, size_t BlockSize>
 void
 MemoryPool<T, BlockSize>::allocateBlock()
